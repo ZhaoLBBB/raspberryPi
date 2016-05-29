@@ -387,15 +387,17 @@ class MPU6050{
     int16_t getGyroscopeX();
     int16_t getGyroscopeY();
     int16_t getGyroscopeZ();
-
+	void    getGyroBias();
     void getAcceleration(int16_t* x, int16_t* y, int16_t* z);
     int16_t getAccelerationX();
     int16_t getAccelerationY();
     int16_t getAccelerationZ();
 
     void getMotion6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz);
+    void getMotion6(float* ax, float* ay, float* az, float* gx, float* gy, float* gz);
   private:
     uint8_t devAddr;
     uint8_t buffer[32];
+	int16_t gyroBiasX, gyroBiasY, gyroBiasZ;
 };
 #endif

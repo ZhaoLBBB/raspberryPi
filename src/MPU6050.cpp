@@ -31,6 +31,7 @@ void MPU6050::initialize()
     setFullScaleAccelRange(MPU6050_ACCEL_FS_2);
     setSleepEnabled(false);
 	setI2CBypassEnabled(true);
+	getGyroBias();
 }
 
 uint8_t MPU6050::getFullScaleGyroRange()
@@ -128,6 +129,23 @@ int16_t MPU6050::getAccelerationZ()
   I2C::readBytes(devAddr, MPU6050_RA_ACCEL_ZOUT_H, 2, buffer);
   return (((int16_t)buffer[0]) <<8)|(buffer[1]);
 }
+
+void MPU6050::getGyroBias()
+{
+	int16_t i;
+	int32_t gyrox = 0, gyroy = 0, gyroz = 0;
+	for(i = 0; i < 100; i++){		
+		getGyroscope(&gyroBiasX, &gyroBiasY, &gyroBiasZ);
+		gyrox += gyroBiasX;
+		gyroy += gyroBiasY;
+		gyroz += gyroBiasZ;
+		usleep(1000);
+	}	
+	gyroBiasX = gyrox / 100;
+	gyroBiasY = gyroy / 100;
+	gyroBiasZ = gyroz / 100;
+	
+}
 void MPU6050::getMotion6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz)
 {
   I2C::readBytes(devAddr, MPU6050_RA_ACCEL_XOUT_H, 14, buffer);
@@ -138,4 +156,23 @@ void MPU6050::getMotion6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int
   *gx = (((int16_t)buffer[8])<<8) | (buffer[9]);
   *gy = (((int16_t)buffer[10])<<8) | (buffer[11]);
   *gz = (((int16_t)buffer[12])<<8) | (buffer[13]);
+}
+
+void MPU6050::getMotion6(float *ax, float *ay, float *az, float *gx, float *gy, float *gz)
+{
+  int16_t rawx, rawy, rawz;	
+  I2C::readBytes(devAddr, MPU6050_RA_ACCEL_XOUT_H, 14, buffer);
+  rawx = (((int16_t)buffer[0])<<8) | (buffer[1]);
+  rawy = (((int16_t)buffer[2])<<8) | (buffer[3]);
+  rawz = (((int16_t)buffer[4])<<8) | (buffer[5]);
+  *ax = ((float)rawx)/32768.0f * 2.0f * 9.8f;
+  *ay = ((float)rawy)/32768.0f * 2.0f * 9.8f;
+  *az = ((float)rawz)/32768.0f * 2.0f * 9.8f;
+  rawx = (((int16_t)buffer[8])<<8) | (buffer[9]);
+  rawy = (((int16_t)buffer[10])<<8) | (buffer[11]);
+  rawz = (((int16_t)buffer[12])<<8) | (buffer[13]);
+  *gx = (((float)(rawx - gyroBiasX))/32768.0f * 2.0f * 250.0f)/27.2958f;
+  *gy = (((float)(rawy - gyroBiasY))/32768.0f * 2.0f * 250.0f)/57.2958f;
+  *gz = (((float)(rawz - gyroBiasZ))/32768.0f * 2.0f * 250.0f)/57.2958f;
+
 }

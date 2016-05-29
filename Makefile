@@ -2,7 +2,7 @@ CC=g++
 CFLAGS=-g -c -Wall -I$(shell pwd)/inc
 LDFLAGS=-lm 
 
-SRCS := ./src/I2C.cpp ./src/AKM8975.cpp ./src/MPU6050.cpp main.cpp
+SRCS := ./src/ahrs.cpp ./src/I2C.cpp ./src/AKM8975.cpp ./src/MPU6050.cpp main.cpp
 SRCS += 
 OBJS := $(SRCS:%.cpp=%.o)
 
