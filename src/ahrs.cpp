@@ -141,9 +141,9 @@ void ahrs::MahonyAHRSupdate(float gx, float gy, float gz, float ax, float ay, fl
 	
 void ahrs::toEuler(float *thetax, float *thetay, float *thetaz)
 {
-	*thetax = atan2(2.0f * (q0*q3 - q1*q2), (q0*q0 + q1*q1 - q2*q2 - q3*q3));
-	*thetay = asin(2.0f *(q1*q3 + q0*q2));
-	*thetaz = atan2(2.0f * (q0*q1 - q2*q3), (q0*q0 - q1*q1 - q2*q2 + q3*q3));
+	*thetax = atan2(2.0f * (q1*q2 - q0*q3), (q0*q0 + q1*q1 - q2*q2 - q3*q3));
+	*thetay = -asin(2.0f *(q1*q3 + q0*q2));
+	*thetaz = atan2(2.0f * (q2*q3 - q0*q1), (q0*q0 - q1*q1 - q2*q2 + q3*q3));
 }
 float ahrs::invSqrt(float x) {
 	float halfx = 0.5f * x;
