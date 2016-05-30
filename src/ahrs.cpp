@@ -6,7 +6,7 @@ ahrs::ahrs(float sampletime)
 	sampleTime = sampletime;
 	integralFBX = 0.0f; integralFBY = 0.0f; integralFBZ = 0.0f;
 	twoKp = 2.0f; twoKi = 0.01f;
-	beta = 1.1f;	
+	beta = 0.9f;	
 }
 
 void ahrs::MahonyAHRSupdate(float gx, float gy, float gz, float ax, float ay, float az)
@@ -141,9 +141,9 @@ void ahrs::MahonyAHRSupdate(float gx, float gy, float gz, float ax, float ay, fl
 	
 void ahrs::toEuler(float *yaw, float *pitch, float *roll)
 {
-	*yaw = atan2(2.0f * (q1*q2 - q0*q3), (q0*q0 + q1*q1 - q2*q2 - q3*q3));
+	*yaw = atan2(2.0f * (q0*q3 - q1*q2), (q0*q0 + q1*q1 - q2*q2 - q3*q3));
 	*pitch = -asin(2.0f *(q1*q3 + q0*q2));
-	*roll = atan2(2.0f * (q2*q3 - q0*q1), (q0*q0 - q1*q1 - q2*q2 + q3*q3));
+	*roll = atan2(2.0f * (q0*q1 - q2*q3), (q0*q0 - q1*q1 - q2*q2 + q3*q3));
 }
 float ahrs::invSqrt(float x) {
 	float halfx = 0.5f * x;
@@ -153,6 +153,7 @@ float ahrs::invSqrt(float x) {
 	y = *(float*)&i;
 	y = y * (1.5f - (halfx * y * y));
 	return y;
+	//return 1.0f/sqrt(x);
 }
 void ahrs::MadgwickAHRSupdate(float gx, float gy, float gz, float ax, float ay, float az, float mx, float my, float mz) {
 	float recipNorm;

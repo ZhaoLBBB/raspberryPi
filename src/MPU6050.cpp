@@ -165,14 +165,22 @@ void MPU6050::getMotion6(float *ax, float *ay, float *az, float *gx, float *gy, 
   rawx = (((int16_t)buffer[0])<<8) | (buffer[1]);
   rawy = (((int16_t)buffer[2])<<8) | (buffer[3]);
   rawz = (((int16_t)buffer[4])<<8) | (buffer[5]);
-  *ax = ((float)rawx)/32768.0f * 2.0f * 9.8f;
-  *ay = ((float)rawy)/32768.0f * 2.0f * 9.8f;
-  *az = ((float)rawz)/32768.0f * 2.0f * 9.8f;
+  *ax = ((float)rawx)/16384.0f * 9.801f;
+  *ay = ((float)rawy)/16384.0f * 9.801f;
+  *az = ((float)rawz)/16385.0f * 9.801f;
   rawx = (((int16_t)buffer[8])<<8) | (buffer[9]);
   rawy = (((int16_t)buffer[10])<<8) | (buffer[11]);
   rawz = (((int16_t)buffer[12])<<8) | (buffer[13]);
-  *gx = (((float)(rawx - gyroBiasX))/32768.0f * 2.0f * 250.0f)/57.2958f;
-  *gy = (((float)(rawy - gyroBiasY))/32768.0f * 2.0f * 250.0f)/57.2958f;
-  *gz = (((float)(rawz - gyroBiasZ))/32768.0f * 2.0f * 250.0f)/57.2958f;
+  *gx = (((float)(rawx - gyroBiasX))/131.0f)/57.2958f;
+  *gy = (((float)(rawy - gyroBiasY))/131.0f)/57.2958f;
+  *gz = (((float)(rawz - gyroBiasZ))/131.0f)/57.2958f;
 
+}
+
+void MPU6050::getGyroBias(float *BiasX, float *BiasY, float *BiasZ)
+{
+	
+  *BiasX = (((float)gyroBiasX)/131.0f);
+  *BiasY = (((float)gyroBiasX)/131.0f);
+  *BiasZ = (((float)gyroBiasX)/131.0f);
 }

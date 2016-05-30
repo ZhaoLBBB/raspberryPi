@@ -15,6 +15,7 @@ float ax, ay, az, gx, gy, gz;
 //int16_t mx, my, mz;
 float yaw, pitch, roll;
 float axf, ayf, azf, gxf, gyf, gzf;
+float gyroBiasX, gyroBiasY, gyroBiasZ;
 int main(int argc, char **argv)
 {
 	ts.tv_sec = 0;
@@ -23,6 +24,8 @@ int main(int argc, char **argv)
 		printf("Connection OK\n");
 	}
 	accelgyro.initialize();
+//	accelgyro.getGyroBias(&gyroBiasX, &gyroBiasY, &gyroBiasZ);
+//	printf("GYRO BIAS:%f\n", gyroBiasX*gyroBiasX + gyroBiasY*gyroBiasY + gyroBiasZ*gyroBiasZ);
 //	if(mag.testConnection())
 //		printf("AKM8975 connect OK\n");
 	while(1){
@@ -32,7 +35,7 @@ int main(int argc, char **argv)
 		#ifdef MPU6050_DEBUG
 		printf("ax:%f,	ay:%f,	az:%f,	gx:%f,	gy:%f, gz:%f\n", ax, ay, az, gx * 57.32f, gy * 57.32f, gz*57.32f);
 		#endif 
-		//AHRS.MahonyAHRSupdate(gx, gy, gz, ax, ay, az);
+	//	AHRS.MahonyAHRSupdate(gx, gy, gz, ax, ay, az);
 		AHRS.MadgwickAHRSupdate(gx, gy, gz, ax, ay, az);
 		AHRS.toEuler(&yaw, &pitch, &roll);
 		printf("YAW:%f,\tPITCH:%f,\tROLL:%f\n", yaw*57.32f, pitch * 57.32f, roll * 57.32f);

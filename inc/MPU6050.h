@@ -392,7 +392,7 @@ class MPU6050{
     int16_t getAccelerationX();
     int16_t getAccelerationY();
     int16_t getAccelerationZ();
-
+	void getGyroBias(float *x, float *y, float *z);
     void getMotion6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz);
     void getMotion6(float* ax, float* ay, float* az, float* gx, float* gy, float* gz);
   private:
