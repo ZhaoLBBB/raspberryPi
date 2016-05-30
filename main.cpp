@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <unistd.h>
+//#define MPU6050_DEBUG
 MPU6050 accelgyro;
 AKM8975 mag;
 ahrs AHRS(0.001f);
@@ -17,7 +18,7 @@ float axf, ayf, azf, gxf, gyf, gzf;
 int main(int argc, char **argv)
 {
 	ts.tv_sec = 0;
-	ts.tv_nsec = 1* (1e-3)/(1e-9);
+	ts.tv_nsec = 1 * (1e-3)/(1e-9);
 	if(accelgyro.testConnection()){
 		printf("Connection OK\n");
 	}
@@ -28,7 +29,9 @@ int main(int argc, char **argv)
 		nanosleep(&ts, NULL);
 		accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
 //		mag.getMagnetic(&mx, &my, &mz);
-//		printf("ax:%f,	ay:%f,	az:%f,	gx:%f,	gy:%f, gz:%f\n", ax, ay, az, gx, gy, gz);
+		#ifdef MPU6050_DEBUG
+		printf("ax:%f,	ay:%f,	az:%f,	gx:%f,	gy:%f, gz:%f\n", ax, ay, az, gx * 57.32f, gy * 57.32f, gz*57.32f);
+		#endif 
 		//AHRS.MahonyAHRSupdate(gx, gy, gz, ax, ay, az);
 		AHRS.MadgwickAHRSupdate(gx, gy, gz, ax, ay, az);
 		AHRS.toEuler(&yaw, &pitch, &roll);

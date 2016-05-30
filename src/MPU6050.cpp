@@ -171,7 +171,7 @@ void MPU6050::getMotion6(float *ax, float *ay, float *az, float *gx, float *gy, 
   rawx = (((int16_t)buffer[8])<<8) | (buffer[9]);
   rawy = (((int16_t)buffer[10])<<8) | (buffer[11]);
   rawz = (((int16_t)buffer[12])<<8) | (buffer[13]);
-  *gx = (((float)(rawx - gyroBiasX))/32768.0f * 2.0f * 250.0f)/27.2958f;
+  *gx = (((float)(rawx - gyroBiasX))/32768.0f * 2.0f * 250.0f)/57.2958f;
   *gy = (((float)(rawy - gyroBiasY))/32768.0f * 2.0f * 250.0f)/57.2958f;
   *gz = (((float)(rawz - gyroBiasZ))/32768.0f * 2.0f * 250.0f)/57.2958f;
 
