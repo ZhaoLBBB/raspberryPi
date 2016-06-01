@@ -1,2 +1,1 @@
-Using raspberry pi access MPU6050 and AKM9875 through I2C bus.
-Very simple and easy to USE
+Implement Mahony and Madgwick algorithm Using Raspberry PI

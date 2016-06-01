@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 		#ifdef MPU6050_DEBUG
 		printf("ax:%f,	ay:%f,	az:%f,	gx:%f,	gy:%f, gz:%f\n", ax, ay, az, gx * 57.32f, gy * 57.32f, gz*57.32f);
 		#endif 
-	//	AHRS.MahonyAHRSupdate(gx, gy, gz, ax, ay, az);
+//		AHRS.MahonyAHRSupdate(gx, gy, gz, ax, ay, az);
 		AHRS.MadgwickAHRSupdate(gx, gy, gz, ax, ay, az);
 		AHRS.toEuler(&yaw, &pitch, &roll);
 		printf("YAW:%f,\tPITCH:%f,\tROLL:%f\n", yaw*57.32f, pitch * 57.32f, roll * 57.32f);
