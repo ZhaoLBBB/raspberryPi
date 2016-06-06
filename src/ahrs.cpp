@@ -142,7 +142,7 @@ void ahrs::MahonyAHRSupdate(float gx, float gy, float gz, float ax, float ay, fl
 void ahrs::toEuler(float *yaw, float *pitch, float *roll)
 {
 	*yaw = atan2(2.0f * (q0*q3 - q1*q2), (q0*q0 + q1*q1 - q2*q2 - q3*q3));
-	*pitch = -asin(2.0f *(q1*q3 + q0*q2));
+	*pitch = asin(2.0f *(q1*q3 + q0*q2));
 	*roll = atan2(2.0f * (q0*q1 - q2*q3), (q0*q0 - q1*q1 - q2*q2 + q3*q3));
 }
 float ahrs::invSqrt(float x) {
